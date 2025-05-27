@@ -26,8 +26,17 @@ const overlay = document.querySelector("[data-overlay]");
 const modalImg = document.querySelector("[data-modal-img]");
 const modalTitle = document.querySelector("[data-modal-title]");
 const modalText = document.querySelector("[data-modal-text]");
-// ADD: modal date variable
 const modalDate = document.querySelector("[data-modal-date]");
+
+// Helper function to format date as "15 Sep, 2023"
+function formatDate(dateString) {
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const date = new Date(dateString);
+  const day = date.getDate();
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
+  return `${day < 10 ? '0' + day : day} ${month}, ${year}`;
+}
 
 // modal toggle function
 const testimonialsModalFunc = function () {
@@ -45,11 +54,14 @@ for (let i = 0; i < testimonialsItem.length; i++) {
     modalTitle.innerHTML = this.querySelector("[data-testimonials-title]").innerHTML;
     modalText.innerHTML = this.querySelector("[data-testimonials-text]").innerHTML;
 
-    // ADD: set modal date
-    const testimonialTime = this.querySelector("time");
-    if (testimonialTime && modalDate) {
-      modalDate.setAttribute("datetime", testimonialTime.getAttribute("datetime"));
-      modalDate.textContent = testimonialTime.textContent;
+    // Get date from data attribute and show in modal
+    const dateValue = this.getAttribute("data-testimonials-date");
+    if (dateValue && modalDate) {
+      modalDate.setAttribute("datetime", dateValue);
+      modalDate.textContent = formatDate(dateValue);
+      modalDate.style.display = ""; // Show date
+    } else if (modalDate) {
+      modalDate.style.display = "none"; // Hide date if not present
     }
 
     testimonialsModalFunc();
@@ -57,6 +69,16 @@ for (let i = 0; i < testimonialsItem.length; i++) {
   });
 
 }
+
+// Hide date when modal is closed
+modalCloseBtn.addEventListener("click", function() {
+  if (modalDate) modalDate.style.display = "none";
+  testimonialsModalFunc();
+});
+overlay.addEventListener("click", function() {
+  if (modalDate) modalDate.style.display = "none";
+  testimonialsModalFunc();
+});
 
 
 // add click event to modal close button
