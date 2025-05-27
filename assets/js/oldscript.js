@@ -3,6 +3,8 @@
 // element toggle function
 const elementToggleFunc = function (elem) { elem.classList.toggle("active"); }
 
+
+
 // sidebar variables
 const sidebar = document.querySelector("[data-sidebar]");
 const sidebarBtn = document.querySelector("[data-sidebar-btn]");
@@ -29,18 +31,67 @@ const testimonialsModalFunc = function () {
 
 // add click event to all modal items (content-card)
 for (let i = 0; i < testimonialsItem.length; i++) {
+
   testimonialsItem[i].addEventListener("click", function () {
+
     modalImg.src = this.querySelector("[data-testimonials-avatar]").src;
     modalImg.alt = this.querySelector("[data-testimonials-avatar]").alt;
     modalTitle.innerHTML = this.querySelector("[data-testimonials-title]").innerHTML;
     modalText.innerHTML = this.querySelector("[data-testimonials-text]").innerHTML;
+
     testimonialsModalFunc();
+
   });
+
 }
 
 // add click event to modal close button and overlay
 modalCloseBtn.addEventListener("click", testimonialsModalFunc);
 overlay.addEventListener("click", testimonialsModalFunc);
+
+
+// add click event to all modal items
+for (let i = 0; i < testimonialsItem.length; i++) {
+
+  testimonialsItem[i].addEventListener("click", function () {
+
+    modalImg.src = this.querySelector("[data-testimonials-avatar]").src;
+    modalImg.alt = this.querySelector("[data-testimonials-avatar]").alt;
+    modalTitle.innerHTML = this.querySelector("[data-testimonials-title]").innerHTML;
+    modalText.innerHTML = this.querySelector("[data-testimonials-text]").innerHTML;
+
+    // Get date from data attribute and show in modal
+    const dateValue = this.getAttribute("data-testimonials-date");
+    if (dateValue && modalDate) {
+      modalDate.setAttribute("datetime", dateValue);
+      modalDate.textContent = formatDate(dateValue);
+      modalDate.style.display = ""; // Show date
+    } else if (modalDate) {
+      modalDate.style.display = "none"; // Hide date if not present
+    }
+
+    testimonialsModalFunc();
+
+  });
+
+}
+
+// Hide date when modal is closed
+modalCloseBtn.addEventListener("click", function() {
+  if (modalDate) modalDate.style.display = "none";
+  testimonialsModalFunc();
+});
+overlay.addEventListener("click", function() {
+  if (modalDate) modalDate.style.display = "none";
+  testimonialsModalFunc();
+});
+
+
+// add click event to modal close button
+modalCloseBtn.addEventListener("click", testimonialsModalFunc);
+overlay.addEventListener("click", testimonialsModalFunc);
+
+
 
 // custom select variables
 const select = document.querySelector("[data-select]");
@@ -53,10 +104,12 @@ select.addEventListener("click", function () { elementToggleFunc(this); });
 // add event in all select items
 for (let i = 0; i < selectItems.length; i++) {
   selectItems[i].addEventListener("click", function () {
+
     let selectedValue = this.innerText.toLowerCase();
     selectValue.innerText = this.innerText;
     elementToggleFunc(select);
     filterFunc(selectedValue);
+
   });
 }
 
@@ -64,7 +117,9 @@ for (let i = 0; i < selectItems.length; i++) {
 const filterItems = document.querySelectorAll("[data-filter-item]");
 
 const filterFunc = function (selectedValue) {
+
   for (let i = 0; i < filterItems.length; i++) {
+
     if (selectedValue === "all") {
       filterItems[i].classList.add("active");
     } else if (selectedValue === filterItems[i].dataset.category) {
@@ -72,14 +127,18 @@ const filterFunc = function (selectedValue) {
     } else {
       filterItems[i].classList.remove("active");
     }
+
   }
+
 }
 
 // add event in all filter button items for large screen
 let lastClickedBtn = filterBtn[0];
 
 for (let i = 0; i < filterBtn.length; i++) {
+
   filterBtn[i].addEventListener("click", function () {
+
     let selectedValue = this.innerText.toLowerCase();
     selectValue.innerText = this.innerText;
     filterFunc(selectedValue);
@@ -87,8 +146,12 @@ for (let i = 0; i < filterBtn.length; i++) {
     lastClickedBtn.classList.remove("active");
     this.classList.add("active");
     lastClickedBtn = this;
+
   });
+
 }
+
+
 
 // contact form variables
 const form = document.querySelector("[data-form]");
@@ -98,14 +161,18 @@ const formBtn = document.querySelector("[data-form-btn]");
 // add event to all form input field
 for (let i = 0; i < formInputs.length; i++) {
   formInputs[i].addEventListener("input", function () {
+
     // check form validation
     if (form.checkValidity()) {
       formBtn.removeAttribute("disabled");
     } else {
       formBtn.setAttribute("disabled", "");
     }
+
   });
 }
+
+
 
 // page navigation variables
 const navigationLinks = document.querySelectorAll("[data-nav-link]");
@@ -114,17 +181,19 @@ const pages = document.querySelectorAll("[data-page]");
 // add event to all nav link
 for (let i = 0; i < navigationLinks.length; i++) {
   navigationLinks[i].addEventListener("click", function () {
-    for (let j = 0; j < pages.length; j++) {
-      if (this.innerHTML.toLowerCase() === pages[j].dataset.page) {
-        pages[j].classList.add("active");
-        navigationLinks[j].classList.add("active");
+
+    for (let i = 0; i < pages.length; i++) {
+      if (this.innerHTML.toLowerCase() === pages[i].dataset.page) {
+        pages[i].classList.add("active");
+        navigationLinks[i].classList.add("active");
         window.scrollTo(0, 0);
       } else {
-        pages[j].classList.remove("active");
-        navigationLinks[j].classList.remove("active");
+        pages[i].classList.remove("active");
+        navigationLinks[i].classList.remove("active");
       }
     }
+
   });
 }
 
-filterFunc("all")
+filterFunc("all");
