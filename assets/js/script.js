@@ -15,7 +15,6 @@ const sidebarBtn = document.querySelector("[data-sidebar-btn]");
 sidebarBtn.addEventListener("click", function () { elementToggleFunc(sidebar); });
 
 
-
 // testimonials variables
 const testimonialsItem = document.querySelectorAll("[data-testimonials-item]");
 const modalContainer = document.querySelector("[data-modal-container]");
@@ -43,6 +42,43 @@ const testimonialsModalFunc = function () {
   modalContainer.classList.toggle("active");
   overlay.classList.toggle("active");
 }
+
+// add click event to all modal items
+for (let i = 0; i < testimonialsItem.length; i++) {
+
+  testimonialsItem[i].addEventListener("click", function () {
+
+    modalImg.src = this.querySelector("[data-testimonials-avatar]").src;
+    modalImg.alt = this.querySelector("[data-testimonials-avatar]").alt;
+    modalTitle.innerHTML = this.querySelector("[data-testimonials-title]").innerHTML;
+    modalText.innerHTML = this.querySelector("[data-testimonials-text]").innerHTML;
+
+    // Get date from parent li
+    const dateValue = this.parentElement.getAttribute("data-testimonials-date");
+    if (dateValue && modalDate) {
+      modalDate.setAttribute("datetime", dateValue);
+      modalDate.textContent = formatDate(dateValue);
+      modalDate.style.display = ""; // show date
+    } else if (modalDate) {
+      modalDate.style.display = "none"; // hide date if not present
+    }
+
+    testimonialsModalFunc();
+
+  });
+
+}
+
+// Hide date when modal is closed
+modalCloseBtn.addEventListener("click", function() {
+  if (modalDate) modalDate.style.display = "none";
+  testimonialsModalFunc();
+});
+overlay.addEventListener("click", function() {
+  if (modalDate) modalDate.style.display = "none";
+  testimonialsModalFunc();
+});
+
 
 // add click event to all modal items
 for (let i = 0; i < testimonialsItem.length; i++) {
