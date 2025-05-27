@@ -26,6 +26,8 @@ const overlay = document.querySelector("[data-overlay]");
 const modalImg = document.querySelector("[data-modal-img]");
 const modalTitle = document.querySelector("[data-modal-title]");
 const modalText = document.querySelector("[data-modal-text]");
+// ADD: modal date variable
+const modalDate = document.querySelector("[data-modal-date]");
 
 // modal toggle function
 const testimonialsModalFunc = function () {
@@ -43,11 +45,19 @@ for (let i = 0; i < testimonialsItem.length; i++) {
     modalTitle.innerHTML = this.querySelector("[data-testimonials-title]").innerHTML;
     modalText.innerHTML = this.querySelector("[data-testimonials-text]").innerHTML;
 
+    // ADD: set modal date
+    const testimonialTime = this.querySelector("time");
+    if (testimonialTime && modalDate) {
+      modalDate.setAttribute("datetime", testimonialTime.getAttribute("datetime"));
+      modalDate.textContent = testimonialTime.textContent;
+    }
+
     testimonialsModalFunc();
 
   });
 
 }
+
 
 // add click event to modal close button
 modalCloseBtn.addEventListener("click", testimonialsModalFunc);
