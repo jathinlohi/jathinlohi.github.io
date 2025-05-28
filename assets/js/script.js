@@ -146,11 +146,5 @@ for (let i = 0; i < certificationItems.length; i++) {
   });
 }
 
-.achievement-list li {
-  margin-bottom: 1em;
-  font-size: 1rem;
-  line-height: 1.6;
-}
-
 
 filterFunc("all")
