@@ -127,4 +127,30 @@ for (let i = 0; i < navigationLinks.length; i++) {
   });
 }
 
+// certifications variables
+const certificationItems = document.querySelectorAll("[data-certification-item]");
+
+// modal variable (reuse the testimonials modal)
+const certModalImg = document.querySelector("[data-modal-img]");
+const certModalTitle = document.querySelector("[data-modal-title]");
+const certModalText = document.querySelector("[data-modal-text]");
+
+// add click event to all certification items (content-card)
+for (let i = 0; i < certificationItems.length; i++) {
+  certificationItems[i].addEventListener("click", function () {
+    certModalImg.src = this.querySelector("[data-certification-avatar]").src;
+    certModalImg.alt = this.querySelector("[data-certification-avatar]").alt;
+    certModalTitle.innerHTML = this.querySelector("[data-certification-title]").innerHTML;
+    certModalText.innerHTML = this.querySelector("[data-certification-text]").innerHTML;
+    testimonialsModalFunc(); // reuse modal toggle function
+  });
+}
+
+.achievement-list li {
+  margin-bottom: 1em;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+
 filterFunc("all")
